@@ -13,6 +13,7 @@
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/native-stack": "^6.9.13",
     "@react-navigation/stack": "^6.3.17",
+    "axios": "^1.4.0",
     "formik": "^2.4.3",
     "lodash": "^4.17.21",
     "react": "18.2.0",
@@ -24,7 +25,8 @@
     "react-native-vector-icons": "^10.0.0",
     "react-redux": "^8.1.2",
     "redux": "^4.2.1",
-    "redux-logic": "^3.0.3"
+    "redux-logic": "^3.0.3",
+    "yup": "^1.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
