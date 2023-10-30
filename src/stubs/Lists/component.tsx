@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 
 import {StyleSheet, FlatList, Text, View} from 'react-native';
 import {
-  IconButton,
   Card,
   Title,
   Paragraph,
@@ -12,25 +11,29 @@ import {
   Snackbar,
 } from 'react-native-paper';
 import {range} from 'lodash';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigation} from '../../components/App';
 
 const data = range(10).map(index => ({index}));
 
-//TODO: interviewee add type
 const RemoveDialog = ({visible, hideDialog, onOkPress}) => (
   <Portal>
-    <Dialog visible={visible} onDismiss={hideDialog}>
+    <Dialog visible={visible} onDismiss={hideDialog} style={styles.dialog}>
       <Dialog.Content>
         <Paragraph>Do you want to delete list?</Paragraph>
       </Dialog.Content>
       <Dialog.Actions>
-        <Button>Cancel</Button>
-        <Button onPress={onOkPress}>Ok</Button>
+        <Button textColor="#0378ff" uppercase mode="text">
+          Cancel
+        </Button>
+        <Button onPress={onOkPress} mode="text" textColor="#ff0000" uppercase>
+          Delete
+        </Button>
       </Dialog.Actions>
     </Dialog>
   </Portal>
 );
 
-//TODO: interviewee add type
 const RemoveDialogError = ({visible, onDismissSnackBar}) => (
   <Snackbar visible={visible} onDismiss={onDismissSnackBar}>
     Oops, something went wrong
@@ -40,6 +43,7 @@ const RemoveDialogError = ({visible, onDismissSnackBar}) => (
 const Lists = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [snackbarVisible, setSnackbarVisible] = useState(false);
+  const navigation = useNavigation<StackNavigation>();
 
   const showModal = () => {
     setModalVisible(true);
@@ -72,7 +76,26 @@ const Lists = () => {
               <Paragraph>Description</Paragraph>
             </Card.Content>
             <Card.Actions>
-              <IconButton icon="delete-outline" onPress={showModal} />
+              <Button
+                onPress={() =>
+                  navigation.navigate('DetailMovieModal', {
+                    title: 'Custom Header',
+                    description: 'description',
+                    itemsCount: 5,
+                  })
+                }
+                textColor="#0378ff"
+                mode="text"
+                uppercase>
+                View
+              </Button>
+              <Button
+                textColor="#0378ff"
+                uppercase
+                mode="text"
+                onPress={showModal}>
+                Delete
+              </Button>
             </Card.Actions>
           </Card>
         )}
@@ -99,9 +122,13 @@ const styles = StyleSheet.create({
   list: {
     flex: data.length === 0 ? 1 : 0,
   },
+  dialog: {
+    backgroundColor: '#ffffff',
+  },
   card: {
     flex: 1,
     margin: 5,
+    backgroundColor: '#ffffff',
   },
   row: {
     flex: 1,

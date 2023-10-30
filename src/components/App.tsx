@@ -4,7 +4,7 @@ import 'react-native-gesture-handler';
 import {Button, View} from 'react-native';
 import {Provider as PaperProvider} from 'react-native-paper';
 import {Provider} from 'react-redux';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, NavigationProp} from '@react-navigation/native';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
 
 import Stubs from '../stubs/Stubs';
@@ -13,8 +13,11 @@ import CreateListModal from '../stubs/CreateListModal';
 
 import store from '../store/store';
 import {RootStackParamList} from './types';
+import DetailMovieModal from '../stubs/DetailMovieModal';
+import CustomHeader from '../stubs/DetailMovieModal/CustomHeader';
 
 const Stack = createStackNavigator<RootStackParamList>();
+export type StackNavigation = NavigationProp<RootStackParamList>;
 
 //TODO: interviewee fix warning
 const RootStack = () => (
@@ -66,6 +69,21 @@ const App = () => {
                 title: 'Create list',
                 headerShown: true,
               }}
+            />
+            <Stack.Screen
+              name="DetailMovieModal"
+              component={DetailMovieModal}
+              options={({route, navigation}) => ({
+                headerShown: true,
+                header: () => (
+                  <CustomHeader
+                    title={route.params.title}
+                    description={route.params.description}
+                    itemsCount={route.params.itemsCount}
+                    navigation={navigation}
+                  />
+                ),
+              })}
             />
           </Stack.Navigator>
         </NavigationContainer>
